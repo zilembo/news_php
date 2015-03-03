@@ -5,7 +5,7 @@
     <title></title>
 </head>
 <body>
-<a href="">На главную</a>
+<a href="/">На главную</a>
 
 <form action="add.php" method="post" enctype="multipart/form-data">
     <label for="title">Заголовок:</label>
