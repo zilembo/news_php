@@ -9,7 +9,6 @@ class NewsController
         $view = new View();
         $view->assign('items',$news);
         $view->$items = $news;
-        var_dump($view->items); die;
         $view->display('News/all.php');
 
 
