@@ -5,13 +5,10 @@ class NewsController
 
     public function actionAll()
     {
-        $db = new DB;
-        $res = $db->query('
-            SELECT * FROM news WHERE id=:id',
-            [':id' => 23216]
-        );
+
+        $res =   NewsModel::findAll();
         var_dump($res);
-        die;
+
 
         /*
         $news = News::getAll();

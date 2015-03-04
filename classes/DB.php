@@ -2,6 +2,7 @@
 
 class DB
 {
+    private $className = 'stdClass';
     private $dbh;
 
     public function __construct()
@@ -10,11 +11,16 @@ class DB
 
     }
 
+    public function setClassName($className)
+    {
+        $this->className = $className;
+    }
+
     public function query($sql, $params = []){
 
         $sth = $this->dbh->prepare($sql);
         $sth->execute($params);
-        return $sth->fetchAll(PDO::FETCH_OBJ);
+        return $sth->fetchAll(PDO::FETCH_CLASS, $this->className);
     }
 
     /*
