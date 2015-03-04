@@ -2,27 +2,22 @@
 
 class DB
 {
+    private $dbh;
 
     public function __construct()
     {
-        mysql_connect('localhost', 'root', '');
-        mysql_select_db('test');
+       $this->dbh = new PDO('mysql:dbname=test;host=localhost', 'root', '');
+
     }
 
-    public function query($sql, $class = 'stdClass')
-    {
-        $res = mysql_query($sql);
-        if ($res === false) {
-            return false;
-        }
-        $ret = [];
-        while ($row = mysql_fetch_object($res, $class)) {
-            $ret[] = $row;
+    public function query($sql, $params = []){
 
-        }
-        return $ret;
+        $sth = $this->dbh->prepare($sql);
+        $sth->execute($params);
+        return $sth->fetchAll(PDO::FETCH_OBJ);
     }
 
+    /*
     public function queryOne($sql, $class = 'stdClass')
     {
 
@@ -34,6 +29,7 @@ class DB
 
         return $insert = mysql_query($sql);
     }
+    */
 }
 
 ?>

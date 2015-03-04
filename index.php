@@ -8,6 +8,5 @@ $controllerClassName = $ctrl . 'Controller';
 
 $controller = new $controllerClassName;
 $method = 'action' . $act;
-var_dump($method);
 $controller->$method();
 ?>
