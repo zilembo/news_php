@@ -6,9 +6,10 @@ class NewsController
     public function actionAll()
     {
 
-        $res =   NewsModel::findAll();
-        var_dump($res);
-
+        $article = new NewsModel();
+        $article->title = 'Privet 111';
+        $article->text = 'Privet, world 111 !';
+        return $article->insert();
 
         /*
         $news = News::getAll();
