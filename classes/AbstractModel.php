@@ -16,13 +16,23 @@ abstract class AbstractModel
     {
         $this->data[$k];
     }
+    public function __isset($k)
+    {
+         return isset($this->data[$k]);
+    }
 
     public static function findAll()
     {
-       echo $class = get_called_class();
+        echo $class = get_called_class();
         $sql = 'SELECT * FROM ' . static::$table;
         $db = new DB();
-        $db->setClassName($class);
+        $res = $db->setClassName($class);
+
+        if (empty($res))
+        {
+            $ex = new E404Ecxeption();
+            throw $ex;
+        }
         return $db->query($sql);
     }
 
@@ -34,6 +44,14 @@ abstract class AbstractModel
         return $db->query($sql, [':id' => $id])[0];
     }
 
+    public static function findOneByColumn($column, $value)
+    {
+        $db = new DB();
+        $db->setClassName(get_called_class());
+        $sql = 'SELECT * FROM ' . static::$table . ' WHERE ' . $column . '=:value';
+        return $db->query($sql, [':value' => $value]);
+    }
+
     public function insert()
     {
         $cols = array_keys($this->data);
@@ -42,18 +60,15 @@ abstract class AbstractModel
         {
             $data[':' . $col] = $this->data[$col];
         }
-
               $sql = '
               INSERT INTO ' .static::$table . '
-              (' . implode(', ', $cols). ')`
+              (' . implode(', ', $cols). ')
               VALUES
               (' . implode(', ', array_keys($data)). ')
               ';
-
         $db = new DB();
         $db->execute($sql, $data);
-        var_dump($db->execute($sql, $data));
-        die;
+
     }
 
 }
