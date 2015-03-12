@@ -23,16 +23,10 @@ abstract class AbstractModel
 
     public static function findAll()
     {
-        echo $class = get_called_class();
+        $class = get_called_class();
         $sql = 'SELECT * FROM ' . static::$table;
         $db = new DB();
-        $res = $db->setClassName($class);
-
-        if (empty($res))
-        {
-            $ex = new E404Ecxeption();
-            throw $ex;
-        }
+        $db->setClassName($class);
         return $db->query($sql);
     }
 
